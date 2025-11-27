@@ -5,34 +5,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Bài 15: Tính chất của kim loại</title>
     
-<script>
-    const ADMIN_PASSWORD = "thangloikt82";
-    
-    function checkPassword() {
-        const inputPassword = prompt("Nhập mật khẩu admin:");
-        if (inputPassword === ADMIN_PASSWORD) {
-            return true;
-        } else {
-            alert("Mật khẩu không đúng!");
-            window.location.href = "index.html";
-            return false;
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
         }
-    }
-    
-    // Kiểm tra password khi trang load
-    window.onload = function() {
-        if (!checkPassword()) {
-            document.body.innerHTML = "<h1 style='text-align: center; margin-top: 50px;'>TRUY CẬP BỊ TỪ CHỐI</h1>";
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-    };
-</script>
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <button class="logout-btn" onclick="logout()">Đăng xuất</button>
+        
+        <h1>ADMIN DASHBOARD - BÀI 15</h1>
+        <h2>Tính chất của kim loại</h2>
 
-<style>
-    /* Ẩn nội dung cho đến khi xác thực */
-    body {
-        display: none;
-    }
-</style>
+        <div class="section">
+            <h3>📊 Tổng quan Bài 15</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>Học sinh làm bài</h4>
+                    <p class="number">150</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Điểm trung bình</h4>
+                    <p class="number">7.5/10</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Thời gian TB</h4>
+                    <p class="number">12:30</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Hoàn thành</h4>
+                    <p class="number">85%</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>📈 Phân bố điểm số (10 câu)</h3>
+            <p>Biểu đồ phân bố điểm sẽ hiển thị tại đây...</p>
+        </div>
+
+        <div class="section">
+            <h3>👥 Số lượt làm bài theo lớp</h3>
+            <p>Thống kê theo lớp sẽ hiển thị tại đây...</p>
+        </div>
+    </div>
+
+    <!-- Password Protection -->
+    <script>
+        const ADMIN_PASSWORD = "khtnb153469";
+        
+        function checkPassword() {
+            const inputPassword = prompt("🔐 NHẬP MẬT KHẨU ADMIN:\n\nVui lòng nhập mật khẩu để truy cập:");
+            if (inputPassword === ADMIN_PASSWORD) {
+                return true;
+            } else {
+                alert("❌ Mật khẩu không đúng! Truy cập bị từ chối.");
+                window.location.href = "index.html";
+                return false;
+            }
+        }
+        
+        function logout() {
+            if (confirm("Bạn có chắc muốn đăng xuất?")) {
+                window.location.href = "index.html";
+            }
+        }
+        
+        // Kiểm tra password khi trang load
+        if (!checkPassword()) {
+            document.body.innerHTML = "<h1 style='text-align: center; margin-top: 50px; color: red;'>TRUY CẬP BỊ TỪ CHỐI</h1>";
+        }
+    </script>
         
         // Tự động logout sau 2 giờ
         function setupAutoLogout() {
