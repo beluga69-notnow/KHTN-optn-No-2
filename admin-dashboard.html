@@ -1,9 +1,50 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Bài 15: Tính chất của kim loại</title>
+    
+    <!-- Password Protection -->
+    <script>
+        // Mật khẩu admin (thay đổi theo ý muốn)
+        const ADMIN_PASSWORD = "khtnb153469";
+        
+        // Kiểm tra password
+        function checkPassword() {
+            const savedPassword = localStorage.getItem('admin_authenticated');
+            if (savedPassword === 'true') {
+                return true;
+            }
+            
+            const inputPassword = prompt("🔐 NHẬP MẬT KHẨU ADMIN:\n\nVui lòng nhập mật khẩu để truy cập Dashboard.");
+            
+            if (inputPassword === ADMIN_PASSWORD) {
+                localStorage.setItem('admin_authenticated', 'true');
+                return true;
+            } else {
+                alert("❌ Mật khẩu không chính xác!\n\nVui lòng liên hệ quản trị viên.");
+                window.location.href = "index.html";
+                return false;
+            }
+        }
+        
+        // Tự động logout sau 2 giờ
+        function setupAutoLogout() {
+            setTimeout(() => {
+                localStorage.removeItem('admin_authenticated');
+                alert('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+                window.location.href = "index.html";
+            }, 2 * 60 * 60 * 1000); // 2 giờ
+        }
+        
+        // Kiểm tra khi trang load
+        if (!checkPassword()) {
+            document.body.innerHTML = '<div style="text-align: center; padding: 50px; font-family: Arial;">Đang chuyển hướng...</div>';
+        } else {
+            setupAutoLogout();
+        }
+    </script>
     <style>
         * {
             box-sizing: border-box;
@@ -358,6 +399,10 @@
             <button class="nav-btn" onclick="showSection('results')">📋 Kết quả bài làm</button>
             <button class="nav-btn" onclick="showSection('analysis')">🔍 Phân tích câu hỏi</button>
             <button class="nav-btn" onclick="showSection('export')">💾 Xuất dữ liệu</button>
+                <!-- Thêm nút logout -->
+    <button class="nav-btn" onclick="logout()" style="background: #e74c3c; margin-left: auto;">
+        🚪 Đăng xuất
+    </button>
         </div>
         
         <div class="admin-content">
@@ -952,18 +997,25 @@
         }
 
         // ========== KHỞI TẠO ==========
-        document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
+    analyzeData();
+    // Cập nhật real-time mỗi 5s
+    self.intervals = setInterval(() => {
+        const module = JSON.parse(localStorage.getItem("chemistry_leaderboard")) || [];
+        if (module.length !== allResults.length) {
+            allResults = module;
             analyzeData();
-            
-            // Cập nhật real-time mỗi 5 giây
-            setInterval(() => {
-                const newData = JSON.parse(localStorage.getItem('chemistry_leaderboard')) || [];
-                if (newData.length !== allResults.length) {
-                    allResults = newData;
-                    analyzeData();
-                }
-            }, 5000);
-        });
+        }
+    }, 5000);
+});
+
+// --- HÀM LOGOUT ---
+function logout() {
+    if (confirm("Are you sure you want to logout?")) {
+        localStorage.removeItem("doubt_customization");
+        window.location.href = "index.html";
+    }
+}
     </script>
 </body>
 </html>
