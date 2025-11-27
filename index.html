@@ -4,49 +4,377 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Trắc Nghiệm Hóa Học - Tính Chất Kim Loại</title>
-    <meta name="description" content="Game trắc nghiệm tương tác về tính chất của kim loại - Hóa học lớp 9">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); color: #333; min-height: 100vh; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { max-width: 800px; width: 100%; background-color: rgba(255, 255, 255, 0.95); border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); padding: 30px; margin-top: 20px; }
-        header { text-align: center; margin-bottom: 30px; }
-        h1 { color: #1a2a6c; margin-bottom: 10px; font-size: 28px; }
-        .subtitle { color: #b21f1f; font-size: 18px; margin-bottom: 20px; }
-        .game-info { display: flex; justify-content: space-between; background-color: #f0f8ff; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
-        .question-container { margin-bottom: 25px; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .options-container { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 15px; }
-        .option { padding: 12px 15px; background-color: #f8f9fa; border: 2px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
-        .option:hover { background-color: #e9ecef; transform: translateY(-2px); }
-        .option.selected { background-color: #d4edda; border-color: #c3e6cb; }
-        .option.correct { background-color: #d4edda; border-color: #28a745; }
-        .option.incorrect { background-color: #f8d7da; border-color: #dc3545; }
-        .navigation { display: flex; justify-content: space-between; margin-top: 20px; }
-        button { padding: 12px 25px; background-color: #1a2a6c; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; transition: all 0.3s; }
-        button:hover { background-color: #0d1b4d; transform: translateY(-2px); }
-        .submit-btn { background-color: #28a745; }
-        .result-container { text-align: center; padding: 30px; display: none; }
-        .score { font-size: 72px; font-weight: bold; color: #b21f1f; margin: 20px 0; }
-        .progress-bar { width: 100%; height: 10px; background-color: #e9ecef; border-radius: 5px; margin-bottom: 20px; overflow: hidden; }
-        .progress { height: 100%; background-color: #1a2a6c; width: 0%; transition: width 0.5s; }
-        .image-placeholder { background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin: 15px 0; border: 2px dashed #dee2e6; text-align: center; color: #6c757d; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #1a2a6c;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #b21f1f;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        /* Login Form */
+        .login-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #1a2a6c;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #1a2a6c;
+        }
+        
+        .optional {
+            color: #666;
+            font-style: italic;
+            font-size: 14px;
+        }
+        
+        /* Game Info */
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            text-align: center;
+        }
+        
+        .info-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .info-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a2a6c;
+        }
+        
+        /* Question */
+        .question-container {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .question-number {
+            font-size: 18px;
+            color: #b21f1f;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .question-text {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        
+        .option {
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .option.selected {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        
+        .option.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .option.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            background-color: #1a2a6c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background-color: #0d1b4d;
+            transform: translateY(-2px);
+        }
+        
+        .submit-btn {
+            background-color: #28a745;
+        }
+        
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+        
+        /* Results */
+        .result-container {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .score {
+            font-size: 72px;
+            font-weight: bold;
+            color: #b21f1f;
+            margin: 20px 0;
+        }
+        
+        .result-message {
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        /* Leaderboard */
+        .leaderboard-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .leaderboard-title {
+            color: #1a2a6c;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        th {
+            background-color: #1a2a6c;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #e9ecef;
+        }
+        
+        .rank {
+            font-weight: bold;
+            color: #b21f1f;
+            width: 60px;
+        }
+        
+        /* Progress */
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #1a2a6c;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        /* Image placeholder */
+        .image-placeholder {
+            width: 100%;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 2px dashed #dee2e6;
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+        }
+        
+        /* Hidden class */
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>🔬 Game Trắc Nghiệm Hóa Học</h1>
-            <div class="subtitle">Tính Chất Của Kim Loại - Hóa học 9</div>
-        </header>
-        
-        <div class="game-info">
-            <div class="info-item"><div class="info-label">Câu hỏi</div><div class="info-value" id="current-question">1/10</div></div>
-            <div class="info-item"><div class="info-label">Điểm số</div><div class="info-value" id="score">0</div></div>
-            <div class="info-item"><div class="info-label">Thời gian</div><div class="info-value" id="timer">600</div></div>
+        <!-- Login Section -->
+        <div id="login-container">
+            <header>
+                <h1>🔬 Game Trắc Nghiệm Hóa Học</h1>
+                <div class="subtitle">Vui lòng đăng nhập để bắt đầu</div>
+            </header>
+            
+            <div class="login-container">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">Họ và tên *</label>
+                        <input type="text" id="username" required placeholder="Nhập họ và tên của bạn">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email <span class="optional">(tùy chọn)</span></label>
+                        <input type="email" id="email" placeholder="Nhập email của bạn">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="class">Lớp *</label>
+                        <select id="class" required>
+                            <option value="">Chọn lớp</option>
+                            <option value="9A">9A</option>
+                            <option value="9B">9B</option>
+                            <option value="9C">9C</option>
+                            <option value="9D">9D</option>
+                            <option value="9E">9E</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" style="width: 100%;">🎮 Bắt đầu chơi</button>
+                </form>
+            </div>
         </div>
-        
-        <div class="progress-bar"><div class="progress" id="progress"></div></div>
-        
-        <div id="quiz-container">
+
+        <!-- Quiz Section -->
+        <div id="quiz-container" class="hidden">
+            <header>
+                <h1>🔬 Game Trắc Nghiệm Hóa Học</h1>
+                <div class="subtitle" id="user-info">Chào bạn!</div>
+            </header>
+            
+            <div class="game-info">
+                <div class="info-item">
+                    <div class="info-label">Người chơi</div>
+                    <div class="info-value" id="player-name">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Câu hỏi</div>
+                    <div class="info-value" id="current-question">1/10</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Điểm số</div>
+                    <div class="info-value" id="score">0</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Thời gian</div>
+                    <div class="info-value" id="timer">600</div>
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            
             <div class="question-container">
                 <div class="question-number" id="question-number">Câu 1:</div>
                 <div class="question-text" id="question-text"></div>
@@ -59,16 +387,46 @@
                 <button id="submit-btn" class="submit-btn" style="display: none;">📝 Nộp bài</button>
             </div>
         </div>
-        
-        <div id="result-container" class="result-container">
+
+        <!-- Results Section -->
+        <div id="result-container" class="result-container hidden">
             <h2>🎉 Kết Quả Bài Làm</h2>
             <div class="score" id="final-score">0/10</div>
             <div class="result-message" id="result-message"></div>
-            <button id="restart-btn" class="restart-btn">🔄 Làm lại</button>
+            
+            <div class="navigation">
+                <button id="restart-btn">🔄 Chơi lại</button>
+                <button id="leaderboard-btn">🏆 Bảng điểm</button>
+            </div>
+        </div>
+
+        <!-- Leaderboard Section -->
+        <div id="leaderboard-container" class="leaderboard-container hidden">
+            <h2 class="leaderboard-title">🏆 Bảng Điểm Cao</h2>
+            <table id="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th class="rank">#</th>
+                        <th>Họ tên</th>
+                        <th>Lớp</th>
+                        <th>Điểm</th>
+                        <th>Thời gian</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    <!-- Dữ liệu sẽ được thêm bằng JavaScript -->
+                </tbody>
+            </table>
+            
+            <div class="navigation" style="margin-top: 20px;">
+                <button id="back-to-results">← Quay lại kết quả</button>
+                <button id="new-game-btn">🎮 Game mới</button>
+            </div>
         </div>
     </div>
 
     <script>
+        // ========== DỮ LIỆU VÀ BIẾN TOÀN CỤC ==========
         const questions = [
             {
                 number: 1,
@@ -140,25 +498,76 @@
         let currentQuestionIndex = 0;
         let userAnswers = new Array(questions.length).fill(null);
         let score = 0;
-        let timeLeft = 600;
+        let timeLeft = 600; // 10 phút
         let timerInterval;
+        let currentUser = null;
+        let leaderboard = JSON.parse(localStorage.getItem('chemistry_leaderboard')) || [];
 
+        // ========== DOM ELEMENTS ==========
+        const loginContainer = document.getElementById('login-container');
         const quizContainer = document.getElementById('quiz-container');
         const resultContainer = document.getElementById('result-container');
+        const leaderboardContainer = document.getElementById('leaderboard-container');
+
+        const loginForm = document.getElementById('login-form');
+        const userInfoElement = document.getElementById('user-info');
+        const playerNameElement = document.getElementById('player-name');
+        
         const questionNumberElement = document.getElementById('question-number');
         const questionTextElement = document.getElementById('question-text');
         const optionsContainer = document.getElementById('options-container');
+        
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
         const submitBtn = document.getElementById('submit-btn');
+        
         const currentQuestionElement = document.getElementById('current-question');
         const scoreElement = document.getElementById('score');
         const timerElement = document.getElementById('timer');
         const progressElement = document.getElementById('progress');
+        
         const finalScoreElement = document.getElementById('final-score');
         const resultMessageElement = document.getElementById('result-message');
+        
         const restartBtn = document.getElementById('restart-btn');
+        const leaderboardBtn = document.getElementById('leaderboard-btn');
+        const backToResultsBtn = document.getElementById('back-to-results');
+        const newGameBtn = document.getElementById('new-game-btn');
+        const leaderboardBody = document.getElementById('leaderboard-body');
 
+        // ========== HỆ THỐNG ĐĂNG NHẬP ==========
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const userClass = document.getElementById('class').value;
+            
+            if (!username || !userClass) {
+                alert('Vui lòng nhập đầy đủ họ tên và chọn lớp!');
+                return;
+            }
+            
+            currentUser = {
+                username: username,
+                email: email,
+                class: userClass,
+                loginTime: new Date().toLocaleString('vi-VN')
+            };
+            
+            // Cập nhật thông tin người dùng
+            userInfoElement.textContent = `Chào ${username} - Lớp ${userClass}`;
+            playerNameElement.textContent = username;
+            
+            // Chuyển sang màn hình game
+            loginContainer.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            
+            // Bắt đầu game
+            initGame();
+        });
+
+        // ========== KHỞI TẠO GAME ==========
         function initGame() {
             currentQuestionIndex = 0;
             userAnswers.fill(null);
@@ -176,13 +585,17 @@
             questionNumberElement.textContent = `Câu ${question.number}:`;
             questionTextElement.innerHTML = question.text;
             
+            // Thêm placeholder hình ảnh cho câu hỏi 8 và 10
             if (question.number === 8 || question.number === 10) {
-                const imagePlaceholder = document.createElement('div');
-                imagePlaceholder.className = 'image-placeholder';
-                imagePlaceholder.innerHTML = question.number === 8 ? 
-                    '🔄 <strong>Hình ảnh:</strong> Thanh nhôm bị uốn cong' : 
-                    '🔥 <strong>Hình ảnh:</strong> Nhúng thìa nhôm vào cốc nước nóng';
-                questionTextElement.appendChild(imagePlaceholder);
+                const existingImage = questionTextElement.querySelector('.image-placeholder');
+                if (!existingImage) {
+                    const imagePlaceholder = document.createElement('div');
+                    imagePlaceholder.className = 'image-placeholder';
+                    imagePlaceholder.innerHTML = question.number === 8 ? 
+                        '🔄 <strong>Hình ảnh:</strong> Thanh nhôm bị uốn cong' : 
+                        '🔥 <strong>Hình ảnh:</strong> Nhúng thìa nhôm vào cốc nước nóng';
+                    questionTextElement.appendChild(imagePlaceholder);
+                }
             }
             
             optionsContainer.innerHTML = '';
@@ -206,6 +619,12 @@
             const question = questions[currentQuestionIndex];
             const options = document.querySelectorAll('.option');
             
+            // Vô hiệu hóa tất cả options sau khi chọn
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+            });
+            
+            // Hiển thị kết quả
             options.forEach((option, idx) => {
                 option.classList.remove('correct', 'incorrect', 'selected');
                 if (idx === optionIndex) {
@@ -221,6 +640,7 @@
                 }
             });
             
+            // Tự động chuyển câu sau 1.5 giây
             setTimeout(() => {
                 if (currentQuestionIndex < questions.length - 1) {
                     currentQuestionIndex++;
@@ -259,12 +679,15 @@
             progressElement.style.width = `${progress}%`;
         }
 
+        // ========== BỘ ĐẾM THỜI GIAN ==========
         function startTimer() {
             clearInterval(timerInterval);
             updateTimerDisplay();
+            
             timerInterval = setInterval(() => {
                 timeLeft--;
                 updateTimerDisplay();
+                
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
                     submitQuiz();
@@ -276,19 +699,65 @@
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-            if (timeLeft < 60) timerElement.style.color = '#dc3545';
+            
+            if (timeLeft < 60) {
+                timerElement.style.color = '#dc3545';
+            } else {
+                timerElement.style.color = '#1a2a6c';
+            }
         }
 
+        // ========== NỘP BÀI VÀ KẾT QUẢ ==========
         submitBtn.addEventListener('click', submitQuiz);
 
         function submitQuiz() {
             clearInterval(timerInterval);
+            
+            // Tính điểm cuối cùng
+            score = 0;
+            questions.forEach((question, index) => {
+                if (userAnswers[index] === question.correctAnswer) {
+                    score++;
+                }
+            });
+            
+            // Lưu kết quả
+            saveResult();
+            
+            // Hiển thị kết quả
             showResults();
         }
 
+        function saveResult() {
+            const result = {
+                username: currentUser.username,
+                email: currentUser.email,
+                class: currentUser.class,
+                score: score,
+                totalQuestions: questions.length,
+                timeSpent: 600 - timeLeft,
+                completedAt: new Date().toLocaleString('vi-VN')
+            };
+            
+            // Thêm vào leaderboard
+            leaderboard.push(result);
+            
+            // Sắp xếp leaderboard theo điểm (cao đến thấp)
+            leaderboard.sort((a, b) => b.score - a.score);
+            
+            // Giữ chỉ 50 kết quả cao nhất
+            if (leaderboard.length > 50) {
+                leaderboard = leaderboard.slice(0, 50);
+            }
+            
+            // Lưu vào localStorage
+            localStorage.setItem('chemistry_leaderboard', JSON.stringify(leaderboard));
+        }
+
         function showResults() {
-            quizContainer.style.display = 'none';
-            resultContainer.style.display = 'block';
+            quizContainer.classList.add('hidden');
+            resultContainer.classList.remove('hidden');
+            
             finalScoreElement.textContent = `${score}/${questions.length}`;
             
             let message = '';
@@ -305,13 +774,67 @@
             resultMessageElement.textContent = message;
         }
 
+        // ========== BẢNG ĐIỂM ==========
+        function showLeaderboard() {
+            resultContainer.classList.add('hidden');
+            leaderboardContainer.classList.remove('hidden');
+            
+            leaderboardBody.innerHTML = '';
+            
+            if (leaderboard.length === 0) {
+                leaderboardBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">Chưa có dữ liệu</td></tr>';
+                return;
+            }
+            
+            leaderboard.forEach((result, index) => {
+                const row = document.createElement('tr');
+                
+                // Highlight kết quả hiện tại
+                if (result.username === currentUser.username && 
+                    result.score === score && 
+                    result.class === currentUser.class) {
+                    row.style.backgroundColor = '#fff3cd';
+                }
+                
+                row.innerHTML = `
+                    <td class="rank">${index + 1}</td>
+                    <td>${result.username}</td>
+                    <td>${result.class}</td>
+                    <td><strong>${result.score}/${result.totalQuestions}</strong></td>
+                    <td>${Math.floor(result.timeSpent / 60)}:${(result.timeSpent % 60).toString().padStart(2, '0')}</td>
+                `;
+                
+                leaderboardBody.appendChild(row);
+            });
+        }
+
+        // ========== ĐIỀU HƯỚNG ==========
         restartBtn.addEventListener('click', () => {
-            resultContainer.style.display = 'none';
-            quizContainer.style.display = 'block';
+            resultContainer.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
             initGame();
         });
 
-        window.addEventListener('DOMContentLoaded', initGame);
+        leaderboardBtn.addEventListener('click', showLeaderboard);
+
+        backToResultsBtn.addEventListener('click', () => {
+            leaderboardContainer.classList.add('hidden');
+            resultContainer.classList.remove('hidden');
+        });
+
+        newGameBtn.addEventListener('click', () => {
+            leaderboardContainer.classList.add('hidden');
+            loginContainer.classList.remove('hidden');
+            
+            // Reset form
+            loginForm.reset();
+        });
+
+        // ========== KHỞI CHẠY ==========
+        // Kiểm tra nếu đã có dữ liệu leaderboard
+        if (leaderboard.length > 0) {
+            console.log('Đã tải leaderboard:', leaderboard.length, 'kết quả');
+        }
     </script>
 </body>
 </html>
