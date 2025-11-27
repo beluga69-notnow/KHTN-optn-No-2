@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Trắc Nghiệm Hóa Học - Tính Chất Kim Loại</title>
+    <meta name="description" content="Game trắc nghiệm tương tác về tính chất của kim loại - Hóa học lớp 9">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); color: #333; min-height: 100vh; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { max-width: 800px; width: 100%; background-color: rgba(255, 255, 255, 0.95); border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); padding: 30px; margin-top: 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { color: #1a2a6c; margin-bottom: 10px; font-size: 28px; }
+        .subtitle { color: #b21f1f; font-size: 18px; margin-bottom: 20px; }
+        .game-info { display: flex; justify-content: space-between; background-color: #f0f8ff; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .question-container { margin-bottom: 25px; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .options-container { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 15px; }
+        .option { padding: 12px 15px; background-color: #f8f9fa; border: 2px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+        .option:hover { background-color: #e9ecef; transform: translateY(-2px); }
+        .option.selected { background-color: #d4edda; border-color: #c3e6cb; }
+        .option.correct { background-color: #d4edda; border-color: #28a745; }
+        .option.incorrect { background-color: #f8d7da; border-color: #dc3545; }
+        .navigation { display: flex; justify-content: space-between; margin-top: 20px; }
+        button { padding: 12px 25px; background-color: #1a2a6c; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; transition: all 0.3s; }
+        button:hover { background-color: #0d1b4d; transform: translateY(-2px); }
+        .submit-btn { background-color: #28a745; }
+        .result-container { text-align: center; padding: 30px; display: none; }
+        .score { font-size: 72px; font-weight: bold; color: #b21f1f; margin: 20px 0; }
+        .progress-bar { width: 100%; height: 10px; background-color: #e9ecef; border-radius: 5px; margin-bottom: 20px; overflow: hidden; }
+        .progress { height: 100%; background-color: #1a2a6c; width: 0%; transition: width 0.5s; }
+        .image-placeholder { background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin: 15px 0; border: 2px dashed #dee2e6; text-align: center; color: #6c757d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔬 Game Trắc Nghiệm Hóa Học</h1>
+            <div class="subtitle">Tính Chất Của Kim Loại - Hóa học 9</div>
+        </header>
+        
+        <div class="game-info">
+            <div class="info-item"><div class="info-label">Câu hỏi</div><div class="info-value" id="current-question">1/10</div></div>
+            <div class="info-item"><div class="info-label">Điểm số</div><div class="info-value" id="score">0</div></div>
+            <div class="info-item"><div class="info-label">Thời gian</div><div class="info-value" id="timer">600</div></div>
+        </div>
+        
+        <div class="progress-bar"><div class="progress" id="progress"></div></div>
+        
+        <div id="quiz-container">
+            <div class="question-container">
+                <div class="question-number" id="question-number">Câu 1:</div>
+                <div class="question-text" id="question-text"></div>
+                <div class="options-container" id="options-container"></div>
+            </div>
+            
+            <div class="navigation">
+                <button id="prev-btn" disabled>⬅️ Trước</button>
+                <button id="next-btn">Tiếp theo ➡️</button>
+                <button id="submit-btn" class="submit-btn" style="display: none;">📝 Nộp bài</button>
+            </div>
+        </div>
+        
+        <div id="result-container" class="result-container">
+            <h2>🎉 Kết Quả Bài Làm</h2>
+            <div class="score" id="final-score">0/10</div>
+            <div class="result-message" id="result-message"></div>
+            <button id="restart-btn" class="restart-btn">🔄 Làm lại</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                number: 1,
+                text: "Đâu <strong>không</strong> phải là tính chất vật lí chung của kim loại?",
+                options: ["A. Tính dẻo", "B. Tính dẫn điện, dẫn nhiệt", "C. Ánh kim", "D. Mạ vàng"],
+                correctAnswer: 3
+            },
+            {
+                number: 2,
+                text: "Oxide được tạo thành khi cho kim loại phản ứng với",
+                options: ["A. oxygen", "B. hydrogen", "C. chlorine", "D. sulfur"],
+                correctAnswer: 0
+            },
+            {
+                number: 3,
+                text: "Vì sao đồ bằng nhôm thường bền trong không khí?",
+                options: [
+                    "A. Vì khí oxygen có tính ăn mòn cao",
+                    "B. Vì nhôm tạo lớp màng oxide bền vững",
+                    "C. Vì trong không khí có acid",
+                    "D. Vì hàm lượng nhôm trong đồ dùng ít"
+                ],
+                correctAnswer: 1
+            },
+            {
+                number: 4,
+                text: "Sản phẩm khi cho kim loại tác dụng với phi kim (trừ oxygen) là",
+                options: ["A. acid", "B. base", "C. muối", "D. oxide"],
+                correctAnswer: 2
+            },
+            {
+                number: 5,
+                text: "Kim loại tác dụng với nước <strong>không</strong> tạo hydroxide là",
+                options: ["A. Na", "B. K", "C. Ca", "D. Fe"],
+                correctAnswer: 3
+            },
+            {
+                number: 6,
+                text: "Kim loại nào có thể phản ứng với dung dịch acid?",
+                options: ["A. Cu", "B. Al", "C. Ag", "D. Au"],
+                correctAnswer: 1
+            },
+            {
+                number: 7,
+                text: "Cho 0,01 mol Fe phản ứng vừa đủ với dung dịch CuSO₄. Khối lượng muối thu được là",
+                options: ["A. 1,52 gam", "B. 1,6 gam", "C. 0,56 gam", "D. 0,64 gam"],
+                correctAnswer: 0
+            },
+            {
+                number: 8,
+                text: "Hình ảnh thanh nhôm bị uốn cong thể hiện tính chất gì?",
+                options: ["A. Tính dẫn nhiệt", "B. Tính dẫn điện", "C. Tính ánh kim", "D. Tính dẻo"],
+                correctAnswer: 3
+            },
+            {
+                number: 9,
+                text: "Sản phẩm khi cho nhôm tác dụng với khí oxygen là",
+                options: ["A. Aluminium", "B. Aluminium chloride", "C. Aluminium nitrate", "D. Aluminum oxide"],
+                correctAnswer: 3
+            },
+            {
+                number: 10,
+                text: "Nhúng thìa nhôm vào nước sôi thấy cán thìa nóng chứng tỏ tính chất gì?",
+                options: ["A. Tính dẻo", "B. Tính ánh kim", "C. Tính dẫn điện", "D. Tính dẫn nhiệt"],
+                correctAnswer: 3
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+        let score = 0;
+        let timeLeft = 600;
+        let timerInterval;
+
+        const quizContainer = document.getElementById('quiz-container');
+        const resultContainer = document.getElementById('result-container');
+        const questionNumberElement = document.getElementById('question-number');
+        const questionTextElement = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const currentQuestionElement = document.getElementById('current-question');
+        const scoreElement = document.getElementById('score');
+        const timerElement = document.getElementById('timer');
+        const progressElement = document.getElementById('progress');
+        const finalScoreElement = document.getElementById('final-score');
+        const resultMessageElement = document.getElementById('result-message');
+        const restartBtn = document.getElementById('restart-btn');
+
+        function initGame() {
+            currentQuestionIndex = 0;
+            userAnswers.fill(null);
+            score = 0;
+            timeLeft = 600;
+            scoreElement.textContent = score;
+            updateProgressBar();
+            startTimer();
+            showQuestion();
+            updateNavigationButtons();
+        }
+
+        function showQuestion() {
+            const question = questions[currentQuestionIndex];
+            questionNumberElement.textContent = `Câu ${question.number}:`;
+            questionTextElement.innerHTML = question.text;
+            
+            if (question.number === 8 || question.number === 10) {
+                const imagePlaceholder = document.createElement('div');
+                imagePlaceholder.className = 'image-placeholder';
+                imagePlaceholder.innerHTML = question.number === 8 ? 
+                    '🔄 <strong>Hình ảnh:</strong> Thanh nhôm bị uốn cong' : 
+                    '🔥 <strong>Hình ảnh:</strong> Nhúng thìa nhôm vào cốc nước nóng';
+                questionTextElement.appendChild(imagePlaceholder);
+            }
+            
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                if (userAnswers[currentQuestionIndex] === index) {
+                    optionElement.classList.add('selected');
+                }
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => selectOption(index));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            currentQuestionElement.textContent = `${currentQuestionIndex + 1}/${questions.length}`;
+            updateProgressBar();
+        }
+
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestionIndex] = optionIndex;
+            const question = questions[currentQuestionIndex];
+            const options = document.querySelectorAll('.option');
+            
+            options.forEach((option, idx) => {
+                option.classList.remove('correct', 'incorrect', 'selected');
+                if (idx === optionIndex) {
+                    option.classList.add('selected');
+                    if (idx === question.correctAnswer) {
+                        option.classList.add('correct');
+                        score++;
+                        scoreElement.textContent = score;
+                    } else {
+                        option.classList.add('incorrect');
+                        options[question.correctAnswer].classList.add('correct');
+                    }
+                }
+            });
+            
+            setTimeout(() => {
+                if (currentQuestionIndex < questions.length - 1) {
+                    currentQuestionIndex++;
+                    showQuestion();
+                    updateNavigationButtons();
+                } else {
+                    submitBtn.style.display = 'block';
+                }
+            }, 1500);
+        }
+
+        function updateNavigationButtons() {
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+            submitBtn.style.display = currentQuestionIndex === questions.length - 1 ? 'block' : 'none';
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion();
+                updateNavigationButtons();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+                updateNavigationButtons();
+            }
+        });
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressElement.style.width = `${progress}%`;
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            if (timeLeft < 60) timerElement.style.color = '#dc3545';
+        }
+
+        submitBtn.addEventListener('click', submitQuiz);
+
+        function submitQuiz() {
+            clearInterval(timerInterval);
+            showResults();
+        }
+
+        function showResults() {
+            quizContainer.style.display = 'none';
+            resultContainer.style.display = 'block';
+            finalScoreElement.textContent = `${score}/${questions.length}`;
+            
+            let message = '';
+            if (score === questions.length) {
+                message = '🎊 Xuất sắc! Bạn thực sự hiểu rõ về kim loại!';
+            } else if (score >= 7) {
+                message = '👍 Rất tốt! Kiến thức của bạn khá vững!';
+            } else if (score >= 5) {
+                message = '💪 Khá tốt! Hãy ôn tập thêm nhé!';
+            } else {
+                message = '📚 Hãy xem lại bài học và thử lại!';
+            }
+            
+            resultMessageElement.textContent = message;
+        }
+
+        restartBtn.addEventListener('click', () => {
+            resultContainer.style.display = 'none';
+            quizContainer.style.display = 'block';
+            initGame();
+        });
+
+        window.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+</html>
